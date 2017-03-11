@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.springframework.org/schema/context
+       http://www.springframework.org/schema/context/spring-context.xsd">
+
+    <context:property-placeholder location="classpath:rpc-redis.properties"/>
+
+    <bean id="redisConfig" class="com.boy.rpc.framework.registry.redis.bean.RedisConfig">
+        <property name="redisAddress" value="${rpc.registry_address}"/>
+        <property name="redisPassword" value="${rpc.registry_password}"/>
+        <property name="redisPort" value="${rpc.registry_port}"/>
+    </bean>
+
+    <bean id="serviceDiscovery" class="com.boy.rpc.framework.registry.redis.RedisServiceDiscovery">
+        <constructor-arg name="redisConfig" ref="redisConfig"/>
+    </bean>
+
+    <bean id="rpcProxy" class="com.boy.rpc.framework.client.BoyRpcProxy">
+        <constructor-arg name="serviceDiscovery" ref="serviceDiscovery"/>
+    </bean>
+
+</beans>

@@ -1,0 +1,40 @@
+package com.boy.rpc.framework.common.bean;
+
+/**
+ * Created by wesley on 2017-03-10.
+ * rpc响应封装
+ */
+public class BoyRpcResponse {
+
+    private String requestId;
+    private Exception exception;
+    private Object result;
+
+    public boolean hasException() {
+        return exception != null;
+    }
+
+    public String getRequestId() {
+        return requestId;
+    }
+
+    public void setRequestId(String requestId) {
+        this.requestId = requestId;
+    }
+
+    public Throwable getException() {
+        return exception;
+    }
+
+    public void setException(Exception exception) {
+        this.exception = exception;
+    }
+
+    public Object getResult() {
+        return result;
+    }
+
+    public void setResult(Object result) {
+        this.result = result;
+    }
+}

@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.springframework.org/schema/context
+       http://www.springframework.org/schema/context/spring-context.xsd">
+
+    <context:component-scan base-package="com.boy.rpc.framework.sample.server"/>
+
+    <context:property-placeholder location="classpath:rpc-redis.properties"/>
+
+    <bean id="redisConfig" class="com.boy.rpc.framework.registry.redis.bean.RedisConfig">
+        <property name="redisAddress" value="${rpc.registry_address}"/>
+        <property name="redisPassword" value="${rpc.registry_password}"/>
+        <property name="redisPort" value="${rpc.registry_port}"/>
+    </bean>
+
+    <bean id="serviceRegistry" class="com.boy.rpc.framework.registry.redis.RedisServiceRegistry">
+        <constructor-arg name="redisConfig" ref ="redisConfig"/>
+    </bean>
+
+    <bean id="rpcServer" class="com.boy.rpc.framework.server.BoyRpcServer">
+        <constructor-arg name="serviceAddress" value="${rpc.redis_service_address}"/>
+        <constructor-arg name="serviceRegistry" ref="serviceRegistry"/>
+    </bean>
+
+</beans>
